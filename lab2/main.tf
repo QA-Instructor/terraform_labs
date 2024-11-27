@@ -35,4 +35,44 @@ resource "azurerm_subnet" "lab2" {
 
 
 # Do not edit above this line - The above code has been provided so that you may concentrate on building a VM and not be concerned with Provider, Resource Group or VNET at this time
+# For a VM you will also need a network interface with an ip ip_configuration
+#
+resource "azurerm_network_interface" "lab2" {
+  name                = "lab2-nic"
+  location            = azurerm_resource_group.lab2.location
+  resource_group_name = azurerm_resource_group.lab2.name
 
+  ip_configuration {
+    name                          = "lab2_ip"
+    subnet_id                     = azurerm_subnet.lab2.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+# for the windows vm you need to specify the VM including its os_disk and source_image_reference
+
+
+resource "azurerm_windows_virtual_machine" "lab2" {
+  name                = "vm2"
+  resource_group_name = azurerm_resource_group.lab2.name
+  location            = azurerm_resource_group.lab2.location
+  size                = "Standard_B2S"
+  admin_username      = "TFadminuser"
+  admin_password      = "TF_P@$$w0rd1234!"
+  network_interface_ids = [
+    azurerm_network_interface.lab2.id,
+  ]
+ 
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2022-Datacenter"
+    version   = "latest"
+  }
+}
