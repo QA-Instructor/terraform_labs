@@ -3,3 +3,9 @@ variable "sa_name" {
   type        = string
   default     = "vl20240111"
 }
+
+variable "sa_name_web" {
+  description = "storageAccount for lab 3b for the website"
+  type        = string
+  default     = "vl20240111b"
+}
