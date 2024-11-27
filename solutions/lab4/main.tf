@@ -42,7 +42,7 @@ resource "azurerm_application_gateway" "appgtw" {
   sku {
     name     = "Standard_v2"
     tier     = "Standard_v2"
-    capacity = 2
+    capacity = 3
   }
 
   gateway_ip_configuration {
@@ -90,7 +90,7 @@ resource "azurerm_application_gateway" "appgtw" {
 }
 
 resource "azurerm_network_interface" "nic" {
-  count = 2
+  count = 3
   name                = "nic-${count.index+1}"
   location            = azurerm_resource_group.resgrp.location
   resource_group_name = azurerm_resource_group.resgrp.name
@@ -103,7 +103,7 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "nic-assc" {
-  count = 2
+  count = 3
   network_interface_id    = azurerm_network_interface.nic[count.index].id
   ip_configuration_name   = "nic-ipconfig-${count.index+1}"
   backend_address_pool_id = tolist(azurerm_application_gateway.appgtw.backend_address_pool).0.id

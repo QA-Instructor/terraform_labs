@@ -8,7 +8,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_windows_virtual_machine" "vm" {
-  count = 2
+  count = 3
   name                = "VM${count.index+1}"
   resource_group_name = azurerm_resource_group.resgrp.name
   location            = azurerm_resource_group.resgrp.location
@@ -35,7 +35,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "vm-extensions" {
-  count = 2
+  count = 3
   name                 = "vm${count.index+1}-ext"
   virtual_machine_id   = azurerm_windows_virtual_machine.vm[count.index].id
   publisher            = "Microsoft.Compute"
