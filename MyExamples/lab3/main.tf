@@ -11,7 +11,7 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "lab3a" {
+resource "azurerm_resource_group" "RG3" {
   name     = "RG3"
   location = "West Europe"
 }
